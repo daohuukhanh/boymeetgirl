@@ -3,24 +3,29 @@ import haxegon.*;
 class Main
 {
 
+	//boy
 	var x1 = 100;
 	var y1 = 200;
 
+	//girl
 	var x2 = Gfx.screenheight;
 	var y2 = 200;
 
+	//flower
 	var x3 = Gfx.screenwidthmid;
 	var y3 = Gfx.screenheightmid;
 
+	//beam1
 	var x4 = Gfx.screenwidthmid;
 	var y4 = Gfx.screenheightmid;
 
+	//beam2
 	var x5 = Gfx.screenwidthmid;
 	var y5 = Gfx.screenheightmid;
 
-	var speed  = 5;
-	var flowerspeed  = 10;
-	var beamspeed  = 15;
+	var speed  = 10;
+	var flowerspeed  = 5;
+	var beamspeed  = 10;
 
 	var count = 0;
 	var score = 0;
@@ -50,6 +55,11 @@ class Main
 		{
 			Gfx.fillbox(0, 0, Gfx.screenwidth, Gfx.screenheight, Col.WHITE);
 			Gfx.drawimage(0,  0, "win");
+		}
+		
+		if (score == 5)
+		{
+			beamspeed  = 15;
 		}
 
 		if (lives > 0 && score < win)
@@ -114,7 +124,7 @@ class Main
 			if (x2 > Gfx.screenwidth - 200) x2 = Gfx.screenwidth - 200;
 			if (y2 > Gfx.screenheight - 300) y2 = Gfx.screenheight - 500;
 
-			if (Math.abs(x1 - x2) < 20 && Math.abs(y1 - y2) < 20)
+			if (Math.abs(x1 - x2) < 100 && Math.abs(y1 - y2) < 200)
 			{
 				score++;
 				x2 = Random.int(0, Gfx.screenwidth - 20);
@@ -149,14 +159,14 @@ class Main
 				y1 = 0;
 			}
 
-			if (x4 == x1 +165 && y4 > y1 && y4 + 37 < y1 + 257)
+			if (x4 <= x1 + 165 && y4 > y1 && y4 < y1 + 50)
 			{
 				lives--;
 				x1 = 0;
 				y1 = 0;
 			}
 
-			if (x5 + 37 == x1 && y5 > y1 && y4 + 37 < y5 + 257)
+			if (x5 + 37 <= x1 && y5 > y1 && y5 < y1 + 50)
 			{
 				lives--;
 				x1 = 0;

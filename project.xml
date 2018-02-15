@@ -4,10 +4,10 @@
   <set name="windowheight" value="720" />
   
 	<meta 
-    title="New Project" 
-    package="com.yournamehere.newproject" 
+    title="Valentine 2018" 
+    package="com.kd.boymeetgirl" 
     version="1.0.0" 
-    company="Your name here" 
+    company="KD" 
   />
   
   <app swf-version="17.0" if="flash"/>
