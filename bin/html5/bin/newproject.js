@@ -1042,7 +1042,7 @@ $hxClasses["ApplicationMain"] = ApplicationMain;
 ApplicationMain.__name__ = ["ApplicationMain"];
 ApplicationMain.main = function() {
 	var projectName = "newproject";
-	var config = { build : "65", company : "Your name here", file : "newproject", fps : 60, name : "New Project", orientation : "landscape", packageName : "com.yournamehere.newproject", version : "1.0.0", windows : [{ allowHighDPI : true, alwaysOnTop : false, antialiasing : 0, background : 0, borderless : false, colorDepth : 16, depthBuffer : false, display : 0, fullscreen : false, hardware : true, height : 0, hidden : false, maximized : false, minimized : false, parameters : { }, resizable : true, stencilBuffer : true, title : "New Project", vsync : true, width : 0, x : null, y : null}]};
+	var config = { build : "3", company : "KD", file : "newproject", fps : 60, name : "Valentine 2018", orientation : "landscape", packageName : "com.kd.boymeetgirl", version : "1.0.0", windows : [{ allowHighDPI : true, alwaysOnTop : false, antialiasing : 0, background : 0, borderless : false, colorDepth : 16, depthBuffer : false, display : 0, fullscreen : false, hardware : true, height : 0, hidden : false, maximized : false, minimized : false, parameters : { }, resizable : true, stencilBuffer : true, title : "Valentine 2018", vsync : true, width : 0, x : null, y : null}]};
 	lime_system_System.__registerEntryPoint(projectName,ApplicationMain.create,config);
 };
 ApplicationMain.create = function(config) {
@@ -4139,14 +4139,14 @@ _$List_ListIterator.prototype = {
 	,__class__: _$List_ListIterator
 };
 var Main = function() {
-	this.win = 10;
+	this.win = 15;
 	this.lives = 3;
 	this.up = false;
 	this.score = 0;
 	this.count = 0;
-	this.beamspeed = 15;
-	this.flowerspeed = 10;
-	this.speed = 5;
+	this.beamspeed = 10;
+	this.flowerspeed = 5;
+	this.speed = 10;
 	this.y5 = haxegon_Gfx.screenheightmid;
 	this.x5 = haxegon_Gfx.screenwidthmid;
 	this.y4 = haxegon_Gfx.screenheightmid;
@@ -4193,12 +4193,21 @@ Main.prototype = {
 			haxegon_Gfx.drawimage(0,0,"hearts1");
 		}
 		if(this.lives == 0) {
+			haxegon_Sound.play("boo");
 			haxegon_Gfx.fillbox(0,0,haxegon_Gfx.screenwidth,haxegon_Gfx.screenheight,haxegon_Col.WHITE);
 			haxegon_Gfx.drawimage(100,100,"gameover");
 		}
 		if(this.score == this.win) {
+			haxegon_Sound.play("win");
 			haxegon_Gfx.fillbox(0,0,haxegon_Gfx.screenwidth,haxegon_Gfx.screenheight,haxegon_Col.WHITE);
 			haxegon_Gfx.drawimage(0,0,"win");
+		}
+		if(this.score == 5) {
+			this.flowerspeed = 10;
+			this.beamspeed = 15;
+		}
+		if(this.score == 10) {
+			this.beamspeed = 25;
 		}
 		if(this.lives > 0 && this.score < this.win) {
 			if(this.count % 15 == 0) {
@@ -4253,34 +4262,50 @@ Main.prototype = {
 			if(this.y2 > haxegon_Gfx.screenheight - 300) {
 				this.y2 = haxegon_Gfx.screenheight - 500;
 			}
-			if(Math.abs(this.x1 - this.x2) < 20 && Math.abs(this.y1 - this.y2) < 20) {
+			if(Math.abs(this.x1 - this.x2) < 100 && Math.abs(this.y1 - this.y2) < 200) {
+				haxegon_Sound.play("yay");
 				this.score++;
 				this.x2 = haxegon_Random["int"](0,haxegon_Gfx.screenwidth - 20);
 				this.y2 = haxegon_Random["int"](0,haxegon_Gfx.screenheight - 50);
+				if(this.x2 >= haxegon_Gfx.screenwidth - 200 && this.y2 <= 270) {
+					this.x2 = haxegon_Random["int"](0,haxegon_Gfx.screenwidth - 20);
+					this.y2 = haxegon_Random["int"](0,haxegon_Gfx.screenheight - 50);
+				}
 			}
 			if(!this.up) {
 				this.y3 -= this.flowerspeed;
 				if(this.y3 < 0) {
+					this.y3 = 0;
 					this.up = true;
 				}
 			}
 			if(this.up) {
 				this.y3 += this.flowerspeed;
 				if(this.y3 == haxegon_Gfx.screenheight - 100) {
+					this.y3 = haxegon_Gfx.screenheight - 100;
 					this.up = false;
 				}
 			}
 			if(this.x3 > this.x1 && this.x3 + 106 < this.x1 + 165 && this.y3 < this.y1 && this.y3 - 138 > this.y1 - 257) {
+				haxegon_Sound.play("ouch");
 				this.lives--;
 				this.x1 = 0;
 				this.y1 = 0;
 			}
-			if(this.x4 == this.x1 + 165 && this.y4 > this.y1 && this.y4 + 37 < this.y1 + 257) {
+			if(this.x4 > this.x1 && this.x4 <= this.x1 + 115 && this.y4 > this.y1 && this.y4 < this.y1 + 220) {
+				haxegon_Sound.play("ouch");
 				this.lives--;
 				this.x1 = 0;
 				this.y1 = 0;
 			}
-			if(this.x5 + 37 == this.x1 && this.y5 > this.y1 && this.y4 + 37 < this.y5 + 257) {
+			if(this.x5 < this.x1 + 120 && this.x5 + 37 >= this.x1 && this.y5 > this.y1 && this.y5 < this.y1 + 220) {
+				haxegon_Sound.play("ouch");
+				this.lives--;
+				this.x1 = 0;
+				this.y1 = 0;
+			}
+			if(this.x1 >= haxegon_Gfx.screenwidth - 200 && this.y1 <= 270) {
+				haxegon_Sound.play("ouch");
 				this.lives--;
 				this.x1 = 0;
 				this.y1 = 0;
@@ -4319,7 +4344,7 @@ ManifestResources.init = function(config) {
 	var data;
 	var manifest;
 	var library;
-	data = "{\"name\":null,\"assets\":\"aoy4:pathy26:data%2Fgraphics%2Fbeam.pngy4:sizei288y4:typey5:IMAGEy2:idR1y7:preloadtgoR0y25:data%2Fgraphics%2Fboy.pngR2i1672R3R4R5R7R6tgoR0y26:data%2Fgraphics%2Fboy2.pngR2i1459R3R4R5R8R6tgoR0y28:data%2Fgraphics%2Fflower.pngR2i1463R3R4R5R9R6tgoR0y30:data%2Fgraphics%2Fgameover.pngR2i7082R3R4R5R10R6tgoR0y26:data%2Fgraphics%2Fgirl.pngR2i2450R3R4R5R11R6tgoR0y27:data%2Fgraphics%2Fgirl2.pngR2i2316R3R4R5R12R6tgoR0y28:data%2Fgraphics%2Fhearts.pngR2i720R3R4R5R13R6tgoR0y29:data%2Fgraphics%2Fhearts1.pngR2i465R3R4R5R14R6tgoR0y29:data%2Fgraphics%2Fhearts2.pngR2i608R3R4R5R15R6tgoR0y25:data%2Fgraphics%2Fsun.pngR2i2122R3R4R5R16R6tgoR0y26:data%2Fgraphics%2Fsun1.pngR2i1893R3R4R5R17R6tgoR0y26:data%2Fgraphics%2Fsun2.pngR2i1863R3R4R5R18R6tgoR0y25:data%2Fgraphics%2Fwin.pngR2i9712R3R4R5R19R6tgoR0y34:data%2Fhow%20to%20add%20assets.txtR2i7117R3y4:TEXTR5R20R6tgoR0y15:data%2Ficon.pngR2i143966R3R4R5R22R6tgh\",\"version\":2,\"libraryArgs\":[],\"libraryType\":null}";
+	data = "{\"name\":null,\"assets\":\"aoy4:pathy26:data%2Fgraphics%2Fbeam.pngy4:sizei288y4:typey5:IMAGEy2:idR1y7:preloadtgoR0y25:data%2Fgraphics%2Fboy.pngR2i1672R3R4R5R7R6tgoR0y26:data%2Fgraphics%2Fboy2.pngR2i1459R3R4R5R8R6tgoR0y28:data%2Fgraphics%2Fflower.pngR2i1463R3R4R5R9R6tgoR0y30:data%2Fgraphics%2Fgameover.pngR2i7082R3R4R5R10R6tgoR0y26:data%2Fgraphics%2Fgirl.pngR2i2450R3R4R5R11R6tgoR0y27:data%2Fgraphics%2Fgirl2.pngR2i2316R3R4R5R12R6tgoR0y28:data%2Fgraphics%2Fhearts.pngR2i720R3R4R5R13R6tgoR0y29:data%2Fgraphics%2Fhearts1.pngR2i465R3R4R5R14R6tgoR0y29:data%2Fgraphics%2Fhearts2.pngR2i608R3R4R5R15R6tgoR0y25:data%2Fgraphics%2Fsun.pngR2i2122R3R4R5R16R6tgoR0y26:data%2Fgraphics%2Fsun1.pngR2i1893R3R4R5R17R6tgoR0y26:data%2Fgraphics%2Fsun2.pngR2i1863R3R4R5R18R6tgoR0y25:data%2Fgraphics%2Fwin.pngR2i9712R3R4R5R19R6tgoR0y34:data%2Fhow%20to%20add%20assets.txtR2i7117R3y4:TEXTR5R20R6tgoR0y15:data%2Ficon.pngR2i143966R3R4R5R22R6tgoR2i768046R3y5:SOUNDR5y23:data%2Fsounds%2Fboo.wavy9:pathGroupaR24hR6tgoR2i53544R3R23R5y24:data%2Fsounds%2Fouch.wavR25aR26hR6tgoR2i670922R3R23R5y23:data%2Fsounds%2Fwin.wavR25aR27hR6tgoR2i41004R3R23R5y23:data%2Fsounds%2Fyay.wavR25aR28hR6tgh\",\"version\":2,\"libraryArgs\":[],\"libraryType\":null}";
 	manifest = lime_utils_AssetManifest.parse(data,rootPath);
 	library = lime_utils_AssetLibrary.fromManifest(manifest);
 	lime_utils_Assets.registerLibrary("default",library);
@@ -43501,7 +43526,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 514637;
+	this.version = 546738;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = ["lime","utils","AssetCache"];

@@ -24,13 +24,13 @@ import haxe.macro.Expr;
 		
 		var config = {
 			
-			build: "65",
-			company: "Your name here",
+			build: "3",
+			company: "KD",
 			file: "newproject",
 			fps: 60,
-			name: "New Project",
+			name: "Valentine 2018",
 			orientation: "landscape",
-			packageName: "com.yournamehere.newproject",
+			packageName: "com.kd.boymeetgirl",
 			version: "1.0.0",
 			windows: [
 				
@@ -52,7 +52,7 @@ import haxe.macro.Expr;
 					parameters: {},
 					resizable: true,
 					stencilBuffer: true,
-					title: "New Project",
+					title: "Valentine 2018",
 					vsync: true,
 					width: 0,
 					x: null,
