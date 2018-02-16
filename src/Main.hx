@@ -31,7 +31,7 @@ class Main
 	var score = 0;
 	var up = false;
 	var lives = 3;
-	var win = 10;
+	var win = 15;
 
 	function init()
 	{
@@ -47,20 +47,29 @@ class Main
 		if (lives == 1) Gfx.drawimage(0, 0, "hearts1");
 		if (lives == 0)
 		{
+			Sound.play("boo");
 			Gfx.fillbox(0, 0, Gfx.screenwidth, Gfx.screenheight, Col.WHITE);
-			Gfx.drawimage(100,  100, "gameover");
+			Gfx.drawimage(100,  100, "gameover");		
 		}
 
 		if (score == win)
 		{
+			Sound.play("win");
 			Gfx.fillbox(0, 0, Gfx.screenwidth, Gfx.screenheight, Col.WHITE);
-			Gfx.drawimage(0,  0, "win");
+			Gfx.drawimage(0,  0, "win");			
 		}
 		
 		if (score == 5)
 		{
+			flowerspeed  = 10;
 			beamspeed  = 15;
 		}
+		
+		if (score == 10)
+		{
+			beamspeed  = 25;
+		}
+
 
 		if (lives > 0 && score < win)
 		{
@@ -126,9 +135,17 @@ class Main
 
 			if (Math.abs(x1 - x2) < 100 && Math.abs(y1 - y2) < 200)
 			{
+				Sound.play("yay");
 				score++;
+				
 				x2 = Random.int(0, Gfx.screenwidth - 20);
 				y2 = Random.int(0, Gfx.screenheight - 50);
+				
+				if (x2 >= Gfx.screenwidth - 200 && y2 <= 270)
+				{
+					x2 = Random.int(0, Gfx.screenwidth - 20);
+					y2 = Random.int(0, Gfx.screenheight - 50);
+				}
 			}
 
 			if (!up)
@@ -137,6 +154,7 @@ class Main
 
 				if (y3 < 0)
 				{
+					y3 = 0;
 					up = true;
 				}
 			}
@@ -147,6 +165,7 @@ class Main
 
 				if (y3 == Gfx.screenheight - 100)
 				{
+					y3 = Gfx.screenheight - 100;
 					up = false;
 				}
 
@@ -154,20 +173,31 @@ class Main
 
 			if (x3 > x1 && x3 + 106 < x1 + 165 && y3 < y1 && y3 - 138 > y1 - 257)
 			{
+				Sound.play("ouch");
 				lives--;
 				x1 = 0;
 				y1 = 0;
 			}
 
-			if (x4 <= x1 + 165 && y4 > y1 && y4 < y1 + 50)
+			if (x4 > x1 && x4 <= x1 + 115 && y4 > y1 && y4 < y1 + 220)
 			{
+				Sound.play("ouch");
 				lives--;
 				x1 = 0;
 				y1 = 0;
 			}
 
-			if (x5 + 37 <= x1 && y5 > y1 && y5 < y1 + 50)
+			if (x5 < x1 + 120 && x5 + 37 >= x1 && y5 > y1 && y5 < y1 + 220)
 			{
+				Sound.play("ouch");
+				lives--;
+				x1 = 0;
+				y1 = 0;
+			}
+			
+			if (x1 >= Gfx.screenwidth - 200 && y1 <= 270)
+			{
+				Sound.play("ouch");
 				lives--;
 				x1 = 0;
 				y1 = 0;
