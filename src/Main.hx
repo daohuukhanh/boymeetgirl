@@ -3,30 +3,35 @@ import haxegon.*;
 class Main
 {
 
+	//boy
 	var x1 = 100;
 	var y1 = 200;
 
+	//girl
 	var x2 = Gfx.screenheight;
 	var y2 = 200;
 
+	//flower
 	var x3 = Gfx.screenwidthmid;
 	var y3 = Gfx.screenheightmid;
 
+	//beam1
 	var x4 = Gfx.screenwidthmid;
 	var y4 = Gfx.screenheightmid;
 
+	//beam2
 	var x5 = Gfx.screenwidthmid;
 	var y5 = Gfx.screenheightmid;
 
-	var speed  = 5;
-	var flowerspeed  = 10;
-	var beamspeed  = 15;
+	var speed  = 10;
+	var flowerspeed  = 5;
+	var beamspeed  = 10;
 
 	var count = 0;
 	var score = 0;
 	var up = false;
 	var lives = 3;
-	var win = 10;
+	var win = 15;
 
 	function init()
 	{
@@ -42,15 +47,29 @@ class Main
 		if (lives == 1) Gfx.drawimage(0, 0, "hearts1");
 		if (lives == 0)
 		{
+			Sound.play("boo");
 			Gfx.fillbox(0, 0, Gfx.screenwidth, Gfx.screenheight, Col.WHITE);
-			Gfx.drawimage(100,  100, "gameover");
+			Gfx.drawimage(100,  100, "gameover");		
 		}
 
 		if (score == win)
 		{
+			Sound.play("win");
 			Gfx.fillbox(0, 0, Gfx.screenwidth, Gfx.screenheight, Col.WHITE);
-			Gfx.drawimage(0,  0, "win");
+			Gfx.drawimage(0,  0, "win");			
 		}
+		
+		if (score == 5)
+		{
+			flowerspeed  = 10;
+			beamspeed  = 15;
+		}
+		
+		if (score == 10)
+		{
+			beamspeed  = 25;
+		}
+
 
 		if (lives > 0 && score < win)
 		{
@@ -114,11 +133,19 @@ class Main
 			if (x2 > Gfx.screenwidth - 200) x2 = Gfx.screenwidth - 200;
 			if (y2 > Gfx.screenheight - 300) y2 = Gfx.screenheight - 500;
 
-			if (Math.abs(x1 - x2) < 20 && Math.abs(y1 - y2) < 20)
+			if (Math.abs(x1 - x2) < 100 && Math.abs(y1 - y2) < 200)
 			{
+				Sound.play("yay");
 				score++;
+				
 				x2 = Random.int(0, Gfx.screenwidth - 20);
 				y2 = Random.int(0, Gfx.screenheight - 50);
+				
+				if (x2 >= Gfx.screenwidth - 200 && y2 <= 270)
+				{
+					x2 = Random.int(0, Gfx.screenwidth - 20);
+					y2 = Random.int(0, Gfx.screenheight - 50);
+				}
 			}
 
 			if (!up)
@@ -127,6 +154,7 @@ class Main
 
 				if (y3 < 0)
 				{
+					y3 = 0;
 					up = true;
 				}
 			}
@@ -137,6 +165,7 @@ class Main
 
 				if (y3 == Gfx.screenheight - 100)
 				{
+					y3 = Gfx.screenheight - 100;
 					up = false;
 				}
 
@@ -144,20 +173,31 @@ class Main
 
 			if (x3 > x1 && x3 + 106 < x1 + 165 && y3 < y1 && y3 - 138 > y1 - 257)
 			{
+				Sound.play("ouch");
 				lives--;
 				x1 = 0;
 				y1 = 0;
 			}
 
-			if (x4 == x1 +165 && y4 > y1 && y4 + 37 < y1 + 257)
+			if (x4 > x1 && x4 <= x1 + 115 && y4 > y1 && y4 < y1 + 220)
 			{
+				Sound.play("ouch");
 				lives--;
 				x1 = 0;
 				y1 = 0;
 			}
 
-			if (x5 + 37 == x1 && y5 > y1 && y4 + 37 < y5 + 257)
+			if (x5 < x1 + 120 && x5 + 37 >= x1 && y5 > y1 && y5 < y1 + 220)
 			{
+				Sound.play("ouch");
+				lives--;
+				x1 = 0;
+				y1 = 0;
+			}
+			
+			if (x1 >= Gfx.screenwidth - 200 && y1 <= 270)
+			{
+				Sound.play("ouch");
 				lives--;
 				x1 = 0;
 				y1 = 0;
