@@ -1,2 +1,4 @@
 - Fixed collision issues.
 - Added sound.
+- Added comments.
+- Added invicibility when respawned.
