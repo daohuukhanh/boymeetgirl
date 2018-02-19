@@ -41,6 +41,7 @@ class Main
 	{
 		Gfx.fillbox(0, 0, Gfx.screenwidth, Gfx.screenheight, Col.WHITE);
 
+		//displays player's remaining lives
 		if (lives == 3) Gfx.drawimage(0, 0, "hearts");
 		if (lives == 2) Gfx.drawimage(0, 0, "hearts2");
 		if (lives == 1) Gfx.drawimage(0, 0, "hearts1");
@@ -74,6 +75,7 @@ class Main
 			beamspeed  = 25;
 		}
 
+		//game continues when player still have lives
 		if (lives > 0 && score < win)
 		{
 			if (count % 5 == 0)
@@ -124,14 +126,14 @@ class Main
 				y1 += speed;
 			}
 
-			//checks if boy goes out of screen boundary
+			//checks if boy goes out of screen boundaries
 			if (x1 < -20) x1 = -20;
 			if (y1 < -50) y1 = -50;
 
 			if (x1 > Gfx.screenwidth - 200) x1 = Gfx.screenwidth - 200;
 			if (y1 > Gfx.screenheight - 300) y1 = Gfx.screenheight - 300;
 
-			//checks if girl goes out of screen boundary
+			//checks if girl goes out of screen boundaries
 			if (x2 < -20) x2 = -20;
 			if (y2 < -50) y2 = -50;
 
@@ -179,9 +181,10 @@ class Main
 
 			}
 
-			//causes damage when boy hits beam, flower or sun
+			//damage
 			if (x1 != 0 || y1 != 0) //checks if boy has moved or not
 			{
+				//boy hits flower
 				if (x3 > x1 && x3 + 106 < x1 + 165 && y3 < y1 && y3 - 138 > y1 - 257)
 				{
 					Sound.play("ouch");
@@ -190,6 +193,7 @@ class Main
 					y1 = 0;
 				}
 
+				//boy hit beam 1
 				if (x4 > x1 && x4 <= x1 + 115 && y4 > y1 && y4 < y1 + 220)
 				{
 					Sound.play("ouch");
@@ -198,6 +202,7 @@ class Main
 					y1 = 0;
 				}
 
+				//boy hits beam 2
 				if (x5 < x1 + 120 && x5 + 37 >= x1 && y5 > y1 && y5 < y1 + 220)
 				{
 					Sound.play("ouch");
@@ -206,6 +211,7 @@ class Main
 					y1 = 0;
 				}
 
+				//boy hits sun
 				if (x1 >= Gfx.screenwidth - 200 && y1 <= 270)
 				{
 					Sound.play("ouch");
@@ -229,7 +235,7 @@ class Main
 			Text.size = 4;
 			Text.display(Text.RIGHT, Text.BOTTOM, "SCORE: " + score, Col.BLACK, 1);
 
-			count++;
+			count++; //controls animation
 		}
 	}
 }
