@@ -1042,7 +1042,7 @@ $hxClasses["ApplicationMain"] = ApplicationMain;
 ApplicationMain.__name__ = ["ApplicationMain"];
 ApplicationMain.main = function() {
 	var projectName = "newproject";
-	var config = { build : "11", company : "KD", file : "newproject", fps : 60, name : "Valentine 2018", orientation : "landscape", packageName : "com.kd.boymeetgirl", version : "1.0.0", windows : [{ allowHighDPI : true, alwaysOnTop : false, antialiasing : 0, background : 0, borderless : false, colorDepth : 16, depthBuffer : false, display : 0, fullscreen : false, hardware : true, height : 0, hidden : false, maximized : false, minimized : false, parameters : { }, resizable : true, stencilBuffer : true, title : "Valentine 2018", vsync : true, width : 0, x : null, y : null}]};
+	var config = { build : "12", company : "KD", file : "newproject", fps : 60, name : "Valentine 2018", orientation : "landscape", packageName : "com.kd.boymeetgirl", version : "1.0.0", windows : [{ allowHighDPI : true, alwaysOnTop : false, antialiasing : 0, background : 0, borderless : false, colorDepth : 16, depthBuffer : false, display : 0, fullscreen : false, hardware : true, height : 0, hidden : false, maximized : false, minimized : false, parameters : { }, resizable : true, stencilBuffer : true, title : "Valentine 2018", vsync : true, width : 0, x : null, y : null}]};
 	lime_system_System.__registerEntryPoint(projectName,ApplicationMain.create,config);
 };
 ApplicationMain.create = function(config) {
@@ -4267,10 +4267,6 @@ Main.prototype = {
 				this.score++;
 				this.x2 = haxegon_Random["int"](0,haxegon_Gfx.screenwidth - 20);
 				this.y2 = haxegon_Random["int"](0,haxegon_Gfx.screenheight - 50);
-				while(this.x2 >= haxegon_Gfx.screenwidth - 227 && this.y2 <= 318) {
-					this.x2 = haxegon_Random["int"](0,haxegon_Gfx.screenwidth - 20);
-					this.y2 = haxegon_Random["int"](0,haxegon_Gfx.screenheight - 50);
-				}
 			}
 			if(!this.up) {
 				this.y3 -= this.flowerspeed;
@@ -4286,30 +4282,24 @@ Main.prototype = {
 					this.up = false;
 				}
 			}
-			if(this.x1 != 0 || this.y1 != 0) {
+			if(this.x1 != 100 && this.y1 != 200) {
 				if(this.x3 > this.x1 && this.x3 + 106 < this.x1 + 165 && this.y3 < this.y1 && this.y3 - 138 > this.y1 - 257) {
 					haxegon_Sound.play("ouch");
 					this.lives--;
-					this.x1 = 0;
-					this.y1 = 0;
+					this.x1 = 100;
+					this.y1 = 200;
 				}
 				if(this.x4 > this.x1 && this.x4 <= this.x1 + 115 && this.y4 > this.y1 && this.y4 < this.y1 + 220) {
 					haxegon_Sound.play("ouch");
 					this.lives--;
-					this.x1 = 0;
-					this.y1 = 0;
+					this.x1 = 100;
+					this.y1 = 200;
 				}
 				if(this.x5 < this.x1 + 120 && this.x5 + 37 >= this.x1 && this.y5 > this.y1 && this.y5 < this.y1 + 220) {
 					haxegon_Sound.play("ouch");
 					this.lives--;
-					this.x1 = 0;
-					this.y1 = 0;
-				}
-				if(this.x1 >= haxegon_Gfx.screenwidth - 200 && this.y1 <= 270) {
-					haxegon_Sound.play("ouch");
-					this.lives--;
-					this.x1 = 0;
-					this.y1 = 0;
+					this.x1 = 100;
+					this.y1 = 200;
 				}
 			}
 			this.x4 -= this.beamspeed;
@@ -43528,7 +43518,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 575890;
+	this.version = 213284;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = ["lime","utils","AssetCache"];

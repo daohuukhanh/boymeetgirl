@@ -3,3 +3,5 @@
 - Added comments.
 - Added invincibility when respawned.
 - Added: going pass left/upper boundaries causes player to reappear at right/bottom boundaries and vice versa.
+- Removed damage caused by sun.
+- Changed: boy now respawns in the original position instead of top left of the screen.

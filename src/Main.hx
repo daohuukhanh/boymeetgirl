@@ -148,12 +148,6 @@ class Main
 
 				x2 = Random.int(0, Gfx.screenwidth - 20);
 				y2 = Random.int(0, Gfx.screenheight - 50);
-
-				while (x2 >= Gfx.screenwidth - 227 && y2 <= 318)
-				{
-					x2 = Random.int(0, Gfx.screenwidth - 20);
-					y2 = Random.int(0, Gfx.screenheight - 50);
-				}
 			}
 
 			//changes direction of flower when it hits upper boundary
@@ -182,15 +176,15 @@ class Main
 			}
 
 			//damage
-			if (x1 != 0 || y1 != 0) //checks if boy has moved or not
+			if (x1 != 100 && y1 != 200) //checks if boy has moved or not
 			{
 				//boy hits flower
 				if (x3 > x1 && x3 + 106 < x1 + 165 && y3 < y1 && y3 - 138 > y1 - 257)
 				{
 					Sound.play("ouch");
 					lives--;
-					x1 = 0;
-					y1 = 0;
+					x1 = 100;
+					y1 = 200;
 				}
 
 				//boy hit beam 1
@@ -198,8 +192,8 @@ class Main
 				{
 					Sound.play("ouch");
 					lives--;
-					x1 = 0;
-					y1 = 0;
+					x1 = 100;
+					y1 = 200;
 				}
 
 				//boy hits beam 2
@@ -207,17 +201,8 @@ class Main
 				{
 					Sound.play("ouch");
 					lives--;
-					x1 = 0;
-					y1 = 0;
-				}
-
-				//boy hits sun
-				if (x1 >= Gfx.screenwidth - 200 && y1 <= 270)
-				{
-					Sound.play("ouch");
-					lives--;
-					x1 = 0;
-					y1 = 0;
+					x1 = 100;
+					y1 = 200;
 				}
 			}
 			
