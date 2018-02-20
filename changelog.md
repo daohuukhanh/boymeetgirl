@@ -1,4 +1,5 @@
 - Fixed collision issues.
 - Added sound.
 - Added comments.
-- Added invicibility when respawned.
+- Added invincibility when respawned.
+- Added: going pass left/upper boundaries causes player to reappear at right/bottom boundaries and vice versa.

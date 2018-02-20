@@ -127,11 +127,11 @@ class Main
 			}
 
 			//checks if boy goes out of screen boundaries
-			if (x1 < -20) x1 = -20;
-			if (y1 < -50) y1 = -50;
+			if (x1 < -20) x1 = Gfx.screenwidth - 200;
+			if (y1 < -50) y1 = Gfx.screenheight - 300;
 
-			if (x1 > Gfx.screenwidth - 200) x1 = Gfx.screenwidth - 200;
-			if (y1 > Gfx.screenheight - 300) y1 = Gfx.screenheight - 300;
+			if (x1 > Gfx.screenwidth - 200) x1 = 0;
+			if (y1 > Gfx.screenheight - 300) y1 = 0;
 
 			//checks if girl goes out of screen boundaries
 			if (x2 < -20) x2 = -20;
@@ -149,7 +149,7 @@ class Main
 				x2 = Random.int(0, Gfx.screenwidth - 20);
 				y2 = Random.int(0, Gfx.screenheight - 50);
 
-				while (x2 >= Gfx.screenwidth - 200 && y2 <= 270)
+				while (x2 >= Gfx.screenwidth - 227 && y2 <= 318)
 				{
 					x2 = Random.int(0, Gfx.screenwidth - 20);
 					y2 = Random.int(0, Gfx.screenheight - 50);
