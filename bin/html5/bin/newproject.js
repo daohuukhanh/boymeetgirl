@@ -1042,7 +1042,7 @@ $hxClasses["ApplicationMain"] = ApplicationMain;
 ApplicationMain.__name__ = ["ApplicationMain"];
 ApplicationMain.main = function() {
 	var projectName = "newproject";
-	var config = { build : "13", company : "KD", file : "newproject", fps : 60, name : "Valentine 2018", orientation : "landscape", packageName : "com.kd.boymeetgirl", version : "1.0.0", windows : [{ allowHighDPI : true, alwaysOnTop : false, antialiasing : 0, background : 0, borderless : false, colorDepth : 16, depthBuffer : false, display : 0, fullscreen : false, hardware : true, height : 0, hidden : false, maximized : false, minimized : false, parameters : { }, resizable : true, stencilBuffer : true, title : "Valentine 2018", vsync : true, width : 0, x : null, y : null}]};
+	var config = { build : "14", company : "KD", file : "newproject", fps : 60, name : "Valentine 2018", orientation : "landscape", packageName : "com.kd.boymeetgirl", version : "1.0.0", windows : [{ allowHighDPI : true, alwaysOnTop : false, antialiasing : 0, background : 0, borderless : false, colorDepth : 16, depthBuffer : false, display : 0, fullscreen : false, hardware : true, height : 0, hidden : false, maximized : false, minimized : false, parameters : { }, resizable : true, stencilBuffer : true, title : "Valentine 2018", vsync : true, width : 0, x : null, y : null}]};
 	lime_system_System.__registerEntryPoint(projectName,ApplicationMain.create,config);
 };
 ApplicationMain.create = function(config) {
@@ -4139,9 +4139,13 @@ _$List_ListIterator.prototype = {
 	,__class__: _$List_ListIterator
 };
 var Main = function() {
+	this.up = false;
+	this.first = true;
+	this.won = false;
+	this.gameover = false;
+	this.start = false;
 	this.win = 15;
 	this.lives = 3;
-	this.up = false;
 	this.score = 0;
 	this.count = 0;
 	this.beamspeed = 10;
@@ -4151,10 +4155,10 @@ var Main = function() {
 	this.x5 = haxegon_Gfx.screenwidthmid;
 	this.y4 = haxegon_Gfx.screenheightmid;
 	this.x4 = haxegon_Gfx.screenwidthmid;
-	this.y3 = haxegon_Gfx.screenheightmid;
-	this.x3 = haxegon_Gfx.screenwidthmid;
+	this.y3 = haxegon_Gfx.screenheightmid - 50;
+	this.x3 = haxegon_Gfx.screenwidthmid - 20;
 	this.y2 = 200;
-	this.x2 = haxegon_Gfx.screenheight;
+	this.x2 = haxegon_Gfx.screenwidth - 300;
 	this.y1 = 200;
 	this.x1 = 100;
 };
@@ -4176,12 +4180,25 @@ Main.prototype = {
 	,beamspeed: null
 	,count: null
 	,score: null
-	,up: null
 	,lives: null
 	,win: null
+	,start: null
+	,gameover: null
+	,won: null
+	,first: null
+	,up: null
 	,init: function() {
 	}
 	,update: function() {
+		if(!this.gameover && !this.won) {
+			if(haxegon_Mouse.leftclick() || haxegon_Input.pressed(haxegon_Key.LEFT) || haxegon_Input.pressed(haxegon_Key.RIGHT) || haxegon_Input.pressed(haxegon_Key.UP) || haxegon_Input.pressed(haxegon_Key.DOWN)) {
+				this.start = true;
+				this.first = false;
+				this.start = true;
+			}
+		} else if(haxegon_Mouse.leftclick()) {
+			this.reset();
+		}
 		haxegon_Gfx.fillbox(0,0,haxegon_Gfx.screenwidth,haxegon_Gfx.screenheight,haxegon_Col.WHITE);
 		if(this.lives == 3) {
 			haxegon_Gfx.drawimage(0,0,"hearts");
@@ -4194,13 +4211,25 @@ Main.prototype = {
 		}
 		if(this.lives == 0) {
 			haxegon_Sound.play("boo");
+			this.gameover = true;
+			this.start = false;
+		}
+		if(this.gameover) {
 			haxegon_Gfx.fillbox(0,0,haxegon_Gfx.screenwidth,haxegon_Gfx.screenheight,haxegon_Col.WHITE);
-			haxegon_Gfx.drawimage(100,100,"gameover");
+			haxegon_Gfx.drawimage(300,200,"gameover");
+			this.lives = 3;
+			this.score = 0;
 		}
 		if(this.score == this.win) {
 			haxegon_Sound.play("win");
+			this.won = true;
+			this.start = false;
+		}
+		if(this.won) {
 			haxegon_Gfx.fillbox(0,0,haxegon_Gfx.screenwidth,haxegon_Gfx.screenheight,haxegon_Col.WHITE);
-			haxegon_Gfx.drawimage(0,0,"win");
+			haxegon_Gfx.drawimage(200,200,"win");
+			this.lives = 3;
+			this.score = 0;
 		}
 		if(this.score == 5) {
 			this.flowerspeed = 10;
@@ -4209,34 +4238,46 @@ Main.prototype = {
 		if(this.score == 10) {
 			this.beamspeed = 25;
 		}
-		if(this.lives > 0 && this.score < this.win) {
-			if(this.count % 5 == 0) {
+		if(!this.gameover && !this.won) {
+			if(!this.start) {
+				haxegon_Gfx.drawimage(this.x1,this.y1,"boy");
+			} else if(this.count % 5 == 0) {
 				haxegon_Gfx.drawimage(this.x1,this.y1,"boy");
 			} else {
 				haxegon_Gfx.drawimage(this.x1,this.y1,"boy2");
 			}
-			haxegon_Gfx.drawimage(this.x2,this.y2,"girl");
+			if(!this.start) {
+				haxegon_Gfx.drawimage(this.x2,this.y2,"girl2");
+			} else {
+				haxegon_Gfx.drawimage(this.x2,this.y2,"girl");
+			}
 			haxegon_Gfx.drawimage(this.x3,this.y3,"flower");
-			haxegon_Gfx.drawimage(this.x4,this.y4,"beam");
-			haxegon_Gfx.drawimage(this.x5,this.y5,"beam");
-			if(this.count % 3 == 0) {
+			if(this.start) {
+				haxegon_Gfx.drawimage(this.x4,this.y4,"beam");
+				haxegon_Gfx.drawimage(this.x5,this.y5,"beam");
+			}
+			if(!this.start) {
+				haxegon_Gfx.drawimage(haxegon_Gfx.screenwidth - 200,0,"sun");
+			} else if(this.count % 3 == 0) {
 				haxegon_Gfx.drawimage(haxegon_Gfx.screenwidth - 200,0,"sun");
 			} else if(this.count % 3 == 1) {
 				haxegon_Gfx.drawimage(haxegon_Gfx.screenwidth - 200,0,"sun1");
 			} else {
 				haxegon_Gfx.drawimage(haxegon_Gfx.screenwidth - 200,0,"sun2");
 			}
-			if(haxegon_Input.pressed(haxegon_Key.LEFT)) {
-				this.x1 -= this.speed;
-			}
-			if(haxegon_Input.pressed(haxegon_Key.RIGHT)) {
-				this.x1 += this.speed;
-			}
-			if(haxegon_Input.pressed(haxegon_Key.UP)) {
-				this.y1 -= this.speed;
-			}
-			if(haxegon_Input.pressed(haxegon_Key.DOWN)) {
-				this.y1 += this.speed;
+			if(this.start) {
+				if(haxegon_Input.pressed(haxegon_Key.LEFT)) {
+					this.x1 -= this.speed;
+				}
+				if(haxegon_Input.pressed(haxegon_Key.RIGHT)) {
+					this.x1 += this.speed;
+				}
+				if(haxegon_Input.pressed(haxegon_Key.UP)) {
+					this.y1 -= this.speed;
+				}
+				if(haxegon_Input.pressed(haxegon_Key.DOWN)) {
+					this.y1 += this.speed;
+				}
 			}
 			if(this.x1 < -20) {
 				this.x1 = -20;
@@ -4268,18 +4309,20 @@ Main.prototype = {
 				this.x2 = haxegon_Random["int"](0,haxegon_Gfx.screenwidth - 20);
 				this.y2 = haxegon_Random["int"](0,haxegon_Gfx.screenheight - 50);
 			}
-			if(!this.up) {
-				this.y3 -= this.flowerspeed;
-				if(this.y3 < 0) {
-					this.y3 = 0;
-					this.up = true;
+			if(this.start) {
+				if(!this.up) {
+					this.y3 -= this.flowerspeed;
+					if(this.y3 < 0) {
+						this.y3 = 0;
+						this.up = true;
+					}
 				}
-			}
-			if(this.up) {
-				this.y3 += this.flowerspeed;
-				if(this.y3 == haxegon_Gfx.screenheight - 100) {
-					this.y3 = haxegon_Gfx.screenheight - 100;
-					this.up = false;
+				if(this.up) {
+					this.y3 += this.flowerspeed;
+					if(this.y3 == haxegon_Gfx.screenheight - 100) {
+						this.y3 = haxegon_Gfx.screenheight - 100;
+						this.up = false;
+					}
 				}
 			}
 			if(this.x1 != 100 || this.y1 != 200) {
@@ -4302,20 +4345,53 @@ Main.prototype = {
 					this.y1 = 200;
 				}
 			}
-			this.x4 -= this.beamspeed;
-			this.x5 += this.beamspeed;
-			this.y4 = this.y3;
-			this.y5 = this.y3;
-			if(this.x4 < 0) {
-				this.x4 = haxegon_Gfx.screenwidthmid;
-			}
-			if(this.x5 > haxegon_Gfx.screenwidth - 50) {
-				this.x5 = haxegon_Gfx.screenwidthmid;
+			if(this.start) {
+				this.x4 -= this.beamspeed;
+				this.x5 += this.beamspeed;
+				this.y4 = this.y3;
+				this.y5 = this.y3;
+				if(this.x4 < 0) {
+					this.x4 = haxegon_Gfx.screenwidthmid;
+				}
+				if(this.x5 > haxegon_Gfx.screenwidth - 50) {
+					this.x5 = haxegon_Gfx.screenwidthmid;
+				}
 			}
 			haxegon_Text.set_size(4);
-			haxegon_Text.display(haxegon_Text.RIGHT,haxegon_Text.BOTTOM,"SCORE: " + this.score,haxegon_Col.BLACK,1);
-			this.count++;
+			haxegon_Text.display(haxegon_Text.RIGHT - 10,haxegon_Text.BOTTOM,"SCORE: " + this.score,haxegon_Col.BLACK,1);
+			if(!this.start && this.first) {
+				if(this.count % 30 == 0) {
+					haxegon_Text.display(haxegon_Text.RIGHT - 420,haxegon_Text.BOTTOM - 120,"CLICK TO START",haxegon_Col.WHITE,1);
+				} else {
+					haxegon_Text.display(haxegon_Text.RIGHT - 420,haxegon_Text.BOTTOM - 120,"CLICK TO START",haxegon_Col.BLACK,1);
+				}
+			}
 		}
+		if(this.gameover || this.won) {
+			if(this.count % 30 == 0) {
+				haxegon_Text.display(haxegon_Text.RIGHT - 400,haxegon_Text.BOTTOM - 120,"CLICK TO RESTART",haxegon_Col.WHITE,1);
+			} else {
+				haxegon_Text.display(haxegon_Text.RIGHT - 400,haxegon_Text.BOTTOM - 120,"CLICK TO RESTART",haxegon_Col.BLACK,1);
+			}
+		}
+		this.count++;
+	}
+	,reset: function() {
+		this.gameover = false;
+		this.won = false;
+		this.speed = 10;
+		this.flowerspeed = 5;
+		this.beamspeed = 10;
+		this.x1 = 100;
+		this.y1 = 200;
+		this.x2 = haxegon_Gfx.screenwidth - 300;
+		this.y2 = 200;
+		this.x3 = haxegon_Gfx.screenwidthmid - 20;
+		this.y3 = haxegon_Gfx.screenheightmid - 50;
+		this.x4 = haxegon_Gfx.screenwidthmid;
+		this.y4 = haxegon_Gfx.screenheightmid;
+		this.x5 = haxegon_Gfx.screenwidthmid;
+		this.y5 = haxegon_Gfx.screenheightmid;
 	}
 	,__class__: Main
 };
@@ -4336,7 +4412,7 @@ ManifestResources.init = function(config) {
 	var data;
 	var manifest;
 	var library;
-	data = "{\"name\":null,\"assets\":\"aoy4:pathy26:data%2Fgraphics%2Fbeam.pngy4:sizei288y4:typey5:IMAGEy2:idR1y7:preloadtgoR0y25:data%2Fgraphics%2Fboy.pngR2i1672R3R4R5R7R6tgoR0y26:data%2Fgraphics%2Fboy2.pngR2i1459R3R4R5R8R6tgoR0y28:data%2Fgraphics%2Fflower.pngR2i1463R3R4R5R9R6tgoR0y30:data%2Fgraphics%2Fgameover.pngR2i7082R3R4R5R10R6tgoR0y26:data%2Fgraphics%2Fgirl.pngR2i2450R3R4R5R11R6tgoR0y27:data%2Fgraphics%2Fgirl2.pngR2i2316R3R4R5R12R6tgoR0y28:data%2Fgraphics%2Fhearts.pngR2i720R3R4R5R13R6tgoR0y29:data%2Fgraphics%2Fhearts1.pngR2i465R3R4R5R14R6tgoR0y29:data%2Fgraphics%2Fhearts2.pngR2i608R3R4R5R15R6tgoR0y25:data%2Fgraphics%2Fsun.pngR2i2122R3R4R5R16R6tgoR0y26:data%2Fgraphics%2Fsun1.pngR2i1893R3R4R5R17R6tgoR0y26:data%2Fgraphics%2Fsun2.pngR2i1863R3R4R5R18R6tgoR0y25:data%2Fgraphics%2Fwin.pngR2i9712R3R4R5R19R6tgoR0y34:data%2Fhow%20to%20add%20assets.txtR2i7117R3y4:TEXTR5R20R6tgoR0y15:data%2Ficon.pngR2i143966R3R4R5R22R6tgoR2i768046R3y5:SOUNDR5y23:data%2Fsounds%2Fboo.wavy9:pathGroupaR24hR6tgoR2i53544R3R23R5y24:data%2Fsounds%2Fouch.wavR25aR26hR6tgoR2i670922R3R23R5y23:data%2Fsounds%2Fwin.wavR25aR27hR6tgoR2i41004R3R23R5y23:data%2Fsounds%2Fyay.wavR25aR28hR6tgh\",\"version\":2,\"libraryArgs\":[],\"libraryType\":null}";
+	data = "{\"name\":null,\"assets\":\"aoy4:pathy26:data%2Fgraphics%2Fbeam.pngy4:sizei288y4:typey5:IMAGEy2:idR1y7:preloadtgoR0y25:data%2Fgraphics%2Fboy.pngR2i1672R3R4R5R7R6tgoR0y26:data%2Fgraphics%2Fboy2.pngR2i1459R3R4R5R8R6tgoR0y28:data%2Fgraphics%2Fflower.pngR2i1463R3R4R5R9R6tgoR0y30:data%2Fgraphics%2Fgameover.pngR2i7082R3R4R5R10R6tgoR0y26:data%2Fgraphics%2Fgirl.pngR2i2450R3R4R5R11R6tgoR0y27:data%2Fgraphics%2Fgirl2.pngR2i2846R3R4R5R12R6tgoR0y28:data%2Fgraphics%2Fhearts.pngR2i720R3R4R5R13R6tgoR0y29:data%2Fgraphics%2Fhearts1.pngR2i465R3R4R5R14R6tgoR0y29:data%2Fgraphics%2Fhearts2.pngR2i608R3R4R5R15R6tgoR0y25:data%2Fgraphics%2Fsun.pngR2i2122R3R4R5R16R6tgoR0y26:data%2Fgraphics%2Fsun1.pngR2i1893R3R4R5R17R6tgoR0y26:data%2Fgraphics%2Fsun2.pngR2i1863R3R4R5R18R6tgoR0y25:data%2Fgraphics%2Fwin.pngR2i9712R3R4R5R19R6tgoR0y34:data%2Fhow%20to%20add%20assets.txtR2i7117R3y4:TEXTR5R20R6tgoR0y15:data%2Ficon.pngR2i143966R3R4R5R22R6tgoR2i768046R3y5:SOUNDR5y23:data%2Fsounds%2Fboo.wavy9:pathGroupaR24hR6tgoR2i53544R3R23R5y24:data%2Fsounds%2Fouch.wavR25aR26hR6tgoR2i670922R3R23R5y23:data%2Fsounds%2Fwin.wavR25aR27hR6tgoR2i41004R3R23R5y23:data%2Fsounds%2Fyay.wavR25aR28hR6tgh\",\"version\":2,\"libraryArgs\":[],\"libraryType\":null}";
 	manifest = lime_utils_AssetManifest.parse(data,rootPath);
 	library = lime_utils_AssetLibrary.fromManifest(manifest);
 	lime_utils_Assets.registerLibrary("default",library);
@@ -43518,7 +43594,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 529360;
+	this.version = 702670;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = ["lime","utils","AssetCache"];
