@@ -127,18 +127,18 @@ class Main
 			}
 
 			//checks if boy goes out of screen boundaries
-			if (x1 < -20) x1 = Gfx.screenwidth - 200;
-			if (y1 < -50) y1 = Gfx.screenheight - 300;
+			if (x1 < -20) x1 = -20;
+			if (y1 < -10) y1 = -10;
 
-			if (x1 > Gfx.screenwidth - 200) x1 = 0;
-			if (y1 > Gfx.screenheight - 300) y1 = 0;
+			if (x1 > Gfx.screenwidth - 150) x1 = Gfx.screenwidth - 150;
+			if (y1 > Gfx.screenheight - 250) y1 = Gfx.screenheight - 250;
 
 			//checks if girl goes out of screen boundaries
 			if (x2 < -20) x2 = -20;
-			if (y2 < -50) y2 = -50;
+			if (y2 < -10) y2 = -10;
 
 			if (x2 > Gfx.screenwidth - 200) x2 = Gfx.screenwidth - 200;
-			if (y2 > Gfx.screenheight - 300) y2 = Gfx.screenheight - 500;
+			if (y2 > Gfx.screenheight - 300) y2 = Gfx.screenheight - 300;
 
 			//scores if boy reaches girl and moves girl to a new random spot
 			if (Math.abs(x1 - x2) < 100 && Math.abs(y1 - y2) < 200)
@@ -176,7 +176,7 @@ class Main
 			}
 
 			//damage
-			if (x1 != 100 && y1 != 200) //checks if boy has moved or not
+			if (x1 != 100 || y1 != 200) //checks if boy has moved or not
 			{
 				//boy hits flower
 				if (x3 > x1 && x3 + 106 < x1 + 165 && y3 < y1 && y3 - 138 > y1 - 257)

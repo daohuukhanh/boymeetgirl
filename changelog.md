@@ -5,3 +5,5 @@
 - Added: going pass left/upper boundaries causes player to reappear at right/bottom boundaries and vice versa.
 - Removed damage caused by sun.
 - Changed: boy now respawns in the original position instead of top left of the screen.
+- Removed: going pass left/upper boundaries causes player to reappear at right/bottom boundaries and vice versa.
+- Fixed no damage after respawned if player only moves horizontally or vertically.

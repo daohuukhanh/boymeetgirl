@@ -1042,7 +1042,7 @@ $hxClasses["ApplicationMain"] = ApplicationMain;
 ApplicationMain.__name__ = ["ApplicationMain"];
 ApplicationMain.main = function() {
 	var projectName = "newproject";
-	var config = { build : "12", company : "KD", file : "newproject", fps : 60, name : "Valentine 2018", orientation : "landscape", packageName : "com.kd.boymeetgirl", version : "1.0.0", windows : [{ allowHighDPI : true, alwaysOnTop : false, antialiasing : 0, background : 0, borderless : false, colorDepth : 16, depthBuffer : false, display : 0, fullscreen : false, hardware : true, height : 0, hidden : false, maximized : false, minimized : false, parameters : { }, resizable : true, stencilBuffer : true, title : "Valentine 2018", vsync : true, width : 0, x : null, y : null}]};
+	var config = { build : "13", company : "KD", file : "newproject", fps : 60, name : "Valentine 2018", orientation : "landscape", packageName : "com.kd.boymeetgirl", version : "1.0.0", windows : [{ allowHighDPI : true, alwaysOnTop : false, antialiasing : 0, background : 0, borderless : false, colorDepth : 16, depthBuffer : false, display : 0, fullscreen : false, hardware : true, height : 0, hidden : false, maximized : false, minimized : false, parameters : { }, resizable : true, stencilBuffer : true, title : "Valentine 2018", vsync : true, width : 0, x : null, y : null}]};
 	lime_system_System.__registerEntryPoint(projectName,ApplicationMain.create,config);
 };
 ApplicationMain.create = function(config) {
@@ -4239,28 +4239,28 @@ Main.prototype = {
 				this.y1 += this.speed;
 			}
 			if(this.x1 < -20) {
-				this.x1 = haxegon_Gfx.screenwidth - 200;
+				this.x1 = -20;
 			}
-			if(this.y1 < -50) {
-				this.y1 = haxegon_Gfx.screenheight - 300;
+			if(this.y1 < -10) {
+				this.y1 = -10;
 			}
-			if(this.x1 > haxegon_Gfx.screenwidth - 200) {
-				this.x1 = 0;
+			if(this.x1 > haxegon_Gfx.screenwidth - 150) {
+				this.x1 = haxegon_Gfx.screenwidth - 150;
 			}
-			if(this.y1 > haxegon_Gfx.screenheight - 300) {
-				this.y1 = 0;
+			if(this.y1 > haxegon_Gfx.screenheight - 250) {
+				this.y1 = haxegon_Gfx.screenheight - 250;
 			}
 			if(this.x2 < -20) {
 				this.x2 = -20;
 			}
-			if(this.y2 < -50) {
-				this.y2 = -50;
+			if(this.y2 < -10) {
+				this.y2 = -10;
 			}
 			if(this.x2 > haxegon_Gfx.screenwidth - 200) {
 				this.x2 = haxegon_Gfx.screenwidth - 200;
 			}
 			if(this.y2 > haxegon_Gfx.screenheight - 300) {
-				this.y2 = haxegon_Gfx.screenheight - 500;
+				this.y2 = haxegon_Gfx.screenheight - 300;
 			}
 			if(Math.abs(this.x1 - this.x2) < 100 && Math.abs(this.y1 - this.y2) < 200) {
 				haxegon_Sound.play("yay");
@@ -4282,7 +4282,7 @@ Main.prototype = {
 					this.up = false;
 				}
 			}
-			if(this.x1 != 100 && this.y1 != 200) {
+			if(this.x1 != 100 || this.y1 != 200) {
 				if(this.x3 > this.x1 && this.x3 + 106 < this.x1 + 165 && this.y3 < this.y1 && this.y3 - 138 > this.y1 - 257) {
 					haxegon_Sound.play("ouch");
 					this.lives--;
@@ -43518,7 +43518,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 213284;
+	this.version = 529360;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = ["lime","utils","AssetCache"];
