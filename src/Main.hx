@@ -22,20 +22,29 @@ class Main
 	var x5 = Gfx.screenwidthmid;
 	var y5 = Gfx.screenheightmid;
 
+	//beam3
+	var x6 = Gfx.screenwidthmid;
+	var y6 = Gfx.screenheightmid;
+
+	//beam4
+	var x7 = Gfx.screenwidthmid;
+	var y7 = Gfx.screenheightmid;
+
 	var speed  = 10; //boy's speed
 	var flowerspeed  = 5; //flower's speed
 	var beamspeed  = 10; //beam's speed
-	
+
 	var count = 0; //controls animation
-	var score = 0; //keeps highscore	
+	var score = 0; //keeps highscore
 	var lives = 3; // player's hearts
-	var win = 15; //score needed to win
+	var win = 20; //score needed to win
 
 	var start = false; //checks if player has started the game
 	var gameover = false; //gameover?
 	var won = false; //won?
 	var first = true; // first play
 	var up = false; //checks if flower reaches screen's boundaries
+	var something = false; //used to add more beams
 
 	function init()
 	{
@@ -51,17 +60,17 @@ class Main
 			{
 				start = true;
 				first = false;
-			start = true;
-			}			
+				start = true;
+			}
 		}
 		else
 		{
 			if (Mouse.leftclick())
-			{				
+			{
 				reset();
 			}
 		}
-		
+
 		//white background
 		Gfx.fillbox(0, 0, Gfx.screenwidth, Gfx.screenheight, Col.WHITE);
 
@@ -69,22 +78,21 @@ class Main
 		if (lives == 3) Gfx.drawimage(0, 0, "hearts");
 		if (lives == 2) Gfx.drawimage(0, 0, "hearts2");
 		if (lives == 1) Gfx.drawimage(0, 0, "hearts1");
-		
+
 		//gameover
 		if (lives == 0)
 		{
 			Sound.play("boo");
 			gameover = true;
 			start = false;
-	
 		}
-		
+
 		//displays gameover screen
 		if (gameover)
 		{
 			Gfx.fillbox(0, 0, Gfx.screenwidth, Gfx.screenheight, Col.WHITE);
 			Gfx.drawimage(300,  200, "gameover");
-			
+
 			//reset
 			lives = 3;
 			score = 0;
@@ -97,29 +105,36 @@ class Main
 			won = true;
 			start = false;
 		}
-		
+
 		//show win screen
 		if (won)
 		{
 			Gfx.fillbox(0, 0, Gfx.screenwidth, Gfx.screenheight, Col.WHITE);
 			Gfx.drawimage(200,  200, "win");
-			
+
 			//reset
 			lives = 3;
 			score = 0;
 		}
 
-		//increases speed when player reach 5 scores
+		//increases speed when player reach 10 scores
 		if (score == 5)
 		{
 			flowerspeed  = 10;
+		}
+
+		if (score == 10)
+		{
 			beamspeed  = 15;
 		}
 
-		//increases speed when player reach 10 scores
-		if (score == 10)
+		//shoots more beams when player reach 15 scores
+		if (score >= 15)
 		{
-			beamspeed  = 25;
+			beamspeed  = 10;
+
+			Gfx.drawimage(x6, y6, "beam");
+			Gfx.drawimage(x7, y7, "beam");
 		}
 
 		//game continues when player still have lives
@@ -145,13 +160,13 @@ class Main
 			//draws girl
 			if (!start)
 			{
-				Gfx.drawimage(x2, y2, "girl2"); 
+				Gfx.drawimage(x2, y2, "girl2");
 			}
 			else
 			{
-				Gfx.drawimage(x2, y2, "girl"); 
+				Gfx.drawimage(x2, y2, "girl");
 			}
-			
+
 			//draws flower
 			Gfx.drawimage(x3, y3, "flower");
 
@@ -161,7 +176,7 @@ class Main
 				Gfx.drawimage(x4, y4, "beam");
 				Gfx.drawimage(x5, y5, "beam");
 			}
-			
+
 			//draws sun
 			if (!start)
 			{
@@ -183,6 +198,7 @@ class Main
 				}
 			}
 
+			//moves boy if player presses arrow keys
 			if (start)
 			{
 				if (Input.pressed(Key.LEFT))
@@ -193,7 +209,7 @@ class Main
 				if (Input.pressed(Key.RIGHT))
 				{
 					x1 += speed;
-				}	
+				}
 
 				if (Input.pressed(Key.UP))
 				{
@@ -234,7 +250,7 @@ class Main
 			if (start)
 			{
 				//changes direction of flower when it hits upper boundary
-				if (!up)			
+				if (!up)
 				{
 					y3 -= flowerspeed;
 
@@ -287,59 +303,109 @@ class Main
 					x1 = 100;
 					y1 = 200;
 				}
+
+				if (score >= 15)
+				{
+					//boy hit beam 3
+					if (x6 > x1 && x6 <= x1 + 115 && y6 > y1 && y6 < y1 + 220)
+					{
+						Sound.play("ouch");
+						lives--;
+						x1 = 100;
+						y1 = 200;
+					}
+
+					//boy hits beam 4
+					if (x7 < x1 + 120 && x7 + 37 >= x1 && y7 > y1 && y7 < y1 + 220)
+					{
+						Sound.play("ouch");
+						lives--;
+						x1 = 100;
+						y1 = 200;
+					}
+				}
 			}
-			
+
 			//shoots beams
 			if (start)
 			{
 				x4 -= beamspeed;
 				x5 += beamspeed;
-			
+
 				y4 = y3;
 				y5 = y3;
-				
+
 				if (x4 < 0) x4 = Gfx.screenwidthmid;
 				if (x5 > Gfx.screenwidth - 50) x5 = Gfx.screenwidthmid;
+
+				//shoots more beams
+				if (score >= 15)
+				{
+					x6 -= beamspeed;
+					x7 += beamspeed;
+
+					if (!something)
+					{
+						y6 = y3;
+						y7 = y3;
+						something = true;
+					}
+					else
+					{
+						y6 += 10;
+						y7 += 10;
+					}
+
+					if (x6 < 0)
+					{
+						x6 = Gfx.screenwidthmid;
+						y6 = y3;
+					}
+					if (x7 > Gfx.screenwidth - 50)
+					{
+						x7 = Gfx.screenwidthmid;
+						y7 = y3;
+					}
+				}
 			}
 
 			//displays highscore
 			Text.size = 4;
 			Text.display(Text.RIGHT - 10, Text.BOTTOM, "SCORE: " + score, Col.BLACK, 1);
-			
+
 			//start?
 			if (!start && first)
 			{
 				if (count % 30 == 0)
 					Text.display(Text.RIGHT - 420, Text.BOTTOM - 120, "CLICK TO START", Col.WHITE, 1);
-				else			
-					Text.display(Text.RIGHT - 420, Text.BOTTOM - 120, "CLICK TO START", Col.BLACK, 1);			
+				else
+					Text.display(Text.RIGHT - 420, Text.BOTTOM - 120, "CLICK TO START", Col.BLACK, 1);
 			}
-			
-			
 		}
-		
-			//restart?
-			if (gameover || won)
-			{
-			
-				if (count % 30 == 0)
-					Text.display(Text.RIGHT - 400, Text.BOTTOM - 120, "CLICK TO RESTART", Col.WHITE, 1);
-				else			
-					Text.display(Text.RIGHT - 400, Text.BOTTOM - 120, "CLICK TO RESTART", Col.BLACK, 1);	
-			}
-			count++;
-			
+
+		//restart?
+		if (gameover || won)
+		{
+
+			if (count % 30 == 0)
+				Text.display(Text.RIGHT - 400, Text.BOTTOM - 120, "CLICK TO RESTART", Col.WHITE, 1);
+			else
+				Text.display(Text.RIGHT - 400, Text.BOTTOM - 120, "CLICK TO RESTART", Col.BLACK, 1);
+		}
+		count++;
+
 	}
-	
+
 	//resets variables to its original values
-	function reset() {
+	function reset()
+	{
 		gameover = false;
 		won = false;
-		
+
 		speed  = 10;
-		flowerspeed  = 5; 
+		flowerspeed  = 5;
 		beamspeed  = 10;
-		
+
 		x1 = 100;
 		y1 = 200;
 

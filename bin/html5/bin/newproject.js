@@ -1042,7 +1042,7 @@ $hxClasses["ApplicationMain"] = ApplicationMain;
 ApplicationMain.__name__ = ["ApplicationMain"];
 ApplicationMain.main = function() {
 	var projectName = "newproject";
-	var config = { build : "14", company : "KD", file : "newproject", fps : 60, name : "Valentine 2018", orientation : "landscape", packageName : "com.kd.boymeetgirl", version : "1.0.0", windows : [{ allowHighDPI : true, alwaysOnTop : false, antialiasing : 0, background : 0, borderless : false, colorDepth : 16, depthBuffer : false, display : 0, fullscreen : false, hardware : true, height : 0, hidden : false, maximized : false, minimized : false, parameters : { }, resizable : true, stencilBuffer : true, title : "Valentine 2018", vsync : true, width : 0, x : null, y : null}]};
+	var config = { build : "15", company : "KD", file : "newproject", fps : 60, name : "Valentine 2018", orientation : "landscape", packageName : "com.kd.boymeetgirl", version : "1.0.0", windows : [{ allowHighDPI : true, alwaysOnTop : false, antialiasing : 0, background : 0, borderless : false, colorDepth : 16, depthBuffer : false, display : 0, fullscreen : false, hardware : true, height : 0, hidden : false, maximized : false, minimized : false, parameters : { }, resizable : true, stencilBuffer : true, title : "Valentine 2018", vsync : true, width : 0, x : null, y : null}]};
 	lime_system_System.__registerEntryPoint(projectName,ApplicationMain.create,config);
 };
 ApplicationMain.create = function(config) {
@@ -4139,18 +4139,23 @@ _$List_ListIterator.prototype = {
 	,__class__: _$List_ListIterator
 };
 var Main = function() {
+	this.something = false;
 	this.up = false;
 	this.first = true;
 	this.won = false;
 	this.gameover = false;
 	this.start = false;
-	this.win = 15;
+	this.win = 20;
 	this.lives = 3;
 	this.score = 0;
 	this.count = 0;
 	this.beamspeed = 10;
 	this.flowerspeed = 5;
 	this.speed = 10;
+	this.y7 = haxegon_Gfx.screenheightmid;
+	this.x7 = haxegon_Gfx.screenwidthmid;
+	this.y6 = haxegon_Gfx.screenheightmid;
+	this.x6 = haxegon_Gfx.screenwidthmid;
 	this.y5 = haxegon_Gfx.screenheightmid;
 	this.x5 = haxegon_Gfx.screenwidthmid;
 	this.y4 = haxegon_Gfx.screenheightmid;
@@ -4175,6 +4180,10 @@ Main.prototype = {
 	,y4: null
 	,x5: null
 	,y5: null
+	,x6: null
+	,y6: null
+	,x7: null
+	,y7: null
 	,speed: null
 	,flowerspeed: null
 	,beamspeed: null
@@ -4187,6 +4196,7 @@ Main.prototype = {
 	,won: null
 	,first: null
 	,up: null
+	,something: null
 	,init: function() {
 	}
 	,update: function() {
@@ -4233,10 +4243,14 @@ Main.prototype = {
 		}
 		if(this.score == 5) {
 			this.flowerspeed = 10;
-			this.beamspeed = 15;
 		}
 		if(this.score == 10) {
-			this.beamspeed = 25;
+			this.beamspeed = 15;
+		}
+		if(this.score >= 15) {
+			this.beamspeed = 10;
+			haxegon_Gfx.drawimage(this.x6,this.y6,"beam");
+			haxegon_Gfx.drawimage(this.x7,this.y7,"beam");
 		}
 		if(!this.gameover && !this.won) {
 			if(!this.start) {
@@ -4344,6 +4358,20 @@ Main.prototype = {
 					this.x1 = 100;
 					this.y1 = 200;
 				}
+				if(this.score >= 15) {
+					if(this.x6 > this.x1 && this.x6 <= this.x1 + 115 && this.y6 > this.y1 && this.y6 < this.y1 + 220) {
+						haxegon_Sound.play("ouch");
+						this.lives--;
+						this.x1 = 100;
+						this.y1 = 200;
+					}
+					if(this.x7 < this.x1 + 120 && this.x7 + 37 >= this.x1 && this.y7 > this.y1 && this.y7 < this.y1 + 220) {
+						haxegon_Sound.play("ouch");
+						this.lives--;
+						this.x1 = 100;
+						this.y1 = 200;
+					}
+				}
 			}
 			if(this.start) {
 				this.x4 -= this.beamspeed;
@@ -4355,6 +4383,26 @@ Main.prototype = {
 				}
 				if(this.x5 > haxegon_Gfx.screenwidth - 50) {
 					this.x5 = haxegon_Gfx.screenwidthmid;
+				}
+				if(this.score >= 15) {
+					this.x6 -= this.beamspeed;
+					this.x7 += this.beamspeed;
+					if(!this.something) {
+						this.y6 = this.y3;
+						this.y7 = this.y3;
+						this.something = true;
+					} else {
+						this.y6 += 10;
+						this.y7 += 10;
+					}
+					if(this.x6 < 0) {
+						this.x6 = haxegon_Gfx.screenwidthmid;
+						this.y6 = this.y3;
+					}
+					if(this.x7 > haxegon_Gfx.screenwidth - 50) {
+						this.x7 = haxegon_Gfx.screenwidthmid;
+						this.y7 = this.y3;
+					}
 				}
 			}
 			haxegon_Text.set_size(4);
@@ -43594,7 +43642,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 702670;
+	this.version = 156992;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = ["lime","utils","AssetCache"];

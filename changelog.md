@@ -9,3 +9,4 @@
 - Fixed no damage after respawned if player only moves horizontally or vertically.
 - Fixed: screen goes black after gameover/wining.
 - Added: click to start/restart the game.
+- Added more levels of difficulties.
