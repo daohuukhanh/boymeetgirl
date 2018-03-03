@@ -37,7 +37,7 @@ class Main
 	var count = 0; //controls animation
 	var score = 0; //keeps highscore
 	var lives = 3; // player's hearts
-	var win = 20; //score needed to win
+	var win = 25; //score needed to win
 
 	var start = false; //checks if player has started the game
 	var gameover = false; //gameover?
@@ -117,12 +117,13 @@ class Main
 			score = 0;
 		}
 
-		//increases speed when player reach 10 scores
+		//increases flower's speed when player reach 5 scores
 		if (score == 5)
 		{
 			flowerspeed  = 10;
 		}
 
+		//increases beams' speed when player reach 10 scores
 		if (score == 10)
 		{
 			beamspeed  = 15;
@@ -137,6 +138,13 @@ class Main
 			Gfx.drawimage(x7, y7, "beam");
 		}
 
+		//increases flower and beams' speed when player reach 20 scores
+		if (score == 20)
+		{
+			flowerspeed  = 15;
+			beamspeed  = 20;
+		}
+		
 		//game continues when player still have lives
 		if (!gameover && !won)
 		{
@@ -266,7 +274,7 @@ class Main
 				{
 					y3 += flowerspeed;
 
-					if (y3 == Gfx.screenheight - 100)
+					if (y3 > Gfx.screenheight - 100)
 					{
 						y3 = Gfx.screenheight - 100;
 						up = false;

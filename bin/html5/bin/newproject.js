@@ -1042,7 +1042,7 @@ $hxClasses["ApplicationMain"] = ApplicationMain;
 ApplicationMain.__name__ = ["ApplicationMain"];
 ApplicationMain.main = function() {
 	var projectName = "newproject";
-	var config = { build : "15", company : "KD", file : "newproject", fps : 60, name : "Valentine 2018", orientation : "landscape", packageName : "com.kd.boymeetgirl", version : "1.0.0", windows : [{ allowHighDPI : true, alwaysOnTop : false, antialiasing : 0, background : 0, borderless : false, colorDepth : 16, depthBuffer : false, display : 0, fullscreen : false, hardware : true, height : 0, hidden : false, maximized : false, minimized : false, parameters : { }, resizable : true, stencilBuffer : true, title : "Valentine 2018", vsync : true, width : 0, x : null, y : null}]};
+	var config = { build : "16", company : "KD", file : "newproject", fps : 60, name : "Valentine 2018", orientation : "landscape", packageName : "com.kd.boymeetgirl", version : "1.0.0", windows : [{ allowHighDPI : true, alwaysOnTop : false, antialiasing : 0, background : 0, borderless : false, colorDepth : 16, depthBuffer : false, display : 0, fullscreen : false, hardware : true, height : 0, hidden : false, maximized : false, minimized : false, parameters : { }, resizable : true, stencilBuffer : true, title : "Valentine 2018", vsync : true, width : 0, x : null, y : null}]};
 	lime_system_System.__registerEntryPoint(projectName,ApplicationMain.create,config);
 };
 ApplicationMain.create = function(config) {
@@ -4145,7 +4145,7 @@ var Main = function() {
 	this.won = false;
 	this.gameover = false;
 	this.start = false;
-	this.win = 20;
+	this.win = 25;
 	this.lives = 3;
 	this.score = 0;
 	this.count = 0;
@@ -4252,6 +4252,10 @@ Main.prototype = {
 			haxegon_Gfx.drawimage(this.x6,this.y6,"beam");
 			haxegon_Gfx.drawimage(this.x7,this.y7,"beam");
 		}
+		if(this.score == 20) {
+			this.flowerspeed = 15;
+			this.beamspeed = 20;
+		}
 		if(!this.gameover && !this.won) {
 			if(!this.start) {
 				haxegon_Gfx.drawimage(this.x1,this.y1,"boy");
@@ -4333,7 +4337,7 @@ Main.prototype = {
 				}
 				if(this.up) {
 					this.y3 += this.flowerspeed;
-					if(this.y3 == haxegon_Gfx.screenheight - 100) {
+					if(this.y3 > haxegon_Gfx.screenheight - 100) {
 						this.y3 = haxegon_Gfx.screenheight - 100;
 						this.up = false;
 					}
@@ -43642,7 +43646,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 156992;
+	this.version = 389552;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = ["lime","utils","AssetCache"];

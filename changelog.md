@@ -10,3 +10,4 @@
 - Fixed: screen goes black after gameover/wining.
 - Added: click to start/restart the game.
 - Added more levels of difficulties.
+- Fixed: flower flies away once in a while.
